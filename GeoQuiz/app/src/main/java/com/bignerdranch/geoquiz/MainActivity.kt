@@ -25,7 +25,10 @@ class MainActivity : AppCompatActivity() {
         Question(R.string.question_asia, true),
     )
 
+    private var questionAsked =  BooleanArray(questionBank.size) {false}
+
     private var currentIndex = 0
+    private var finalScore = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,28 +42,56 @@ class MainActivity : AppCompatActivity() {
 
         trueButton.setOnClickListener { view: View ->
             checkAnswer(true)
+            questionAsked[currentIndex] = true
+            trueButton.isEnabled = false
+            falseButton.isEnabled = false
+            checkIfQuestionsAsked()
         }
 
         falseButton.setOnClickListener { view: View ->
             checkAnswer(false)
+            questionAsked[currentIndex] = true
+            trueButton.isEnabled = false
+            falseButton.isEnabled = false
+            checkIfQuestionsAsked()
         }
 
         nextButton.setOnClickListener { view: View ->
             currentIndex = (currentIndex + 1) % questionBank.size
+            updateAnswerButtons()
             updateQuestion()
         }
 
         prevButton.setOnClickListener { view: View ->
             currentIndex = if (currentIndex == 0) questionBank.size - 1 else currentIndex - 1
+            updateAnswerButtons()
             updateQuestion()
         }
 
         questionTextView.setOnClickListener { view: View ->
             currentIndex = (currentIndex + 1) % questionBank.size
+            updateAnswerButtons()
             updateQuestion()
         }
 
         updateQuestion()
+    }
+
+    private fun updateAnswerButtons(){
+        if (questionAsked[currentIndex]){
+            trueButton.isEnabled = false
+            falseButton.isEnabled = false
+        }
+        else{
+            trueButton.isEnabled = true
+            falseButton.isEnabled = true
+        }
+    }
+
+    private fun checkIfQuestionsAsked(){
+        if (questionAsked.all { it }){
+            Toast.makeText(this, "Your score is $finalScore", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun updateQuestion() {
@@ -72,6 +103,7 @@ class MainActivity : AppCompatActivity() {
         val correctAnswer = questionBank[currentIndex].answer
 
         val messageResId = if (userAnswer == correctAnswer){
+            finalScore++
             R.string.correct_toast
         } else{
             R.string.incorrect_toast
