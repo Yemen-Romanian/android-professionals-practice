@@ -17,11 +17,17 @@ class QuizViewModel: ViewModel() {
     )
 
     var questionAnswered = BooleanArray(questionBankSize) {false}
+    var questionCheated = BooleanArray(questionBankSize) {false}
 
     val currentQuestionAnswer: Boolean get() = questionBank[currentIndex].answer
     val currentQuestionText: Int get() = questionBank[currentIndex].textResId
     val questionBankSize: Int get() = questionBank.size
     val currentQuestionAnswered: Boolean get() = questionAnswered[currentIndex]
+    var currentQuestionCheated: Boolean
+        get() = questionCheated[currentIndex]
+        set(value) {
+            questionCheated[currentIndex] = value
+        }
     val allQuestionsAnswered: Boolean get() = questionAnswered.all { it }
 
     fun moveToNext() {
