@@ -22,11 +22,14 @@ class QuizViewModel: ViewModel() {
     val currentQuestionAnswer: Boolean get() = questionBank[currentIndex].answer
     val currentQuestionText: Int get() = questionBank[currentIndex].textResId
     val questionBankSize: Int get() = questionBank.size
+    var cheatedQuestionsNum: Int = 0
+
     val currentQuestionAnswered: Boolean get() = questionAnswered[currentIndex]
     var currentQuestionCheated: Boolean
         get() = questionCheated[currentIndex]
         set(value) {
             questionCheated[currentIndex] = value
+            cheatedQuestionsNum++
         }
     val allQuestionsAnswered: Boolean get() = questionAnswered.all { it }
 

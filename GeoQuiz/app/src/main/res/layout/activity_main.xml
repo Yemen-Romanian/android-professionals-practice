@@ -43,6 +43,12 @@
         android:layout_marginBottom="12dp"
         android:text="@string/cheat_button"/>
 
+    <TextView
+        android:id="@+id/cheats_used_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Number of cheats left: " />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
