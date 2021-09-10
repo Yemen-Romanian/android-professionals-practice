@@ -1,10 +1,13 @@
 package com.bignerdranch.criminalintent
 
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -68,7 +71,21 @@ class CrimeListFragment: Fragment() {
         fun bind(crime: Crime){
             this.crime = crime
             this.titleTextView.text = this.crime.title
-            this.dateTextView.text = this.crime.date.toString()
+
+            val formatString = "EEEE, MMM d , yyyy"
+            this.dateTextView.text = DateFormat.format(formatString, this.crime.date)
+
+            if (crime.requiresPolice){
+                return
+            }
+
+            val solvedImageView: ImageView = itemView.findViewById(R.id.crime_solved)
+            solvedImageView.visibility = if (crime.isSolved){
+                View.VISIBLE
+            }
+            else{
+                View.GONE
+            }
         }
 
         override fun onClick(p0: View?) {
