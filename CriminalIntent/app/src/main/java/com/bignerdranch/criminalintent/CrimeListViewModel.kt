@@ -4,21 +4,6 @@ import androidx.lifecycle.ViewModel
 import kotlin.random.Random
 
 class CrimeListViewModel: ViewModel() {
-    val crimes = mutableListOf<Crime>()
-
-    init{
-        for (i in 0 until 100){
-            val crime = Crime()
-            crime.title = "Crime #$i"
-            crime.isSolved = Random.nextBoolean()
-            crime.requiresPolice = if (crime.isSolved){
-                false
-            }
-            else{
-                Random.nextBoolean()
-            }
-
-            crimes += crime
-        }
-    }
+    private val crimeRepository = CrimeRepository.get()
+    val crimeListLiveData = crimeRepository.getCrimes()
 }
